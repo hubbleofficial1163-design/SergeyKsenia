@@ -1561,3 +1561,50 @@ a,
     color: #81754D;
     letter-spacing: 2px;
 }
+
+
+/* Исправление для мобильных — фото всегда внизу, независимо от высоты viewport */
+@media screen and (max-width: 768px) {
+    .hero {
+        position: relative;          /* чтобы фото позиционировалось относительно hero */
+        display: block;              /* отключаем flex, чтобы управлять отступами вручную */
+        min-height: 100dvh;          /* сохраняем минимальную высоту */
+    }
+
+    .hero-content {
+        padding-top: 8vh;
+        padding-bottom: 420px;       /* отступ снизу = примерная высота фото + запас */
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    .hero-photo {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;                   /* убираем auto-отступы */
+        width: 380px;                /* как в текущих стилях для 768px */
+        max-width: 85%;
+        z-index: 2;                  /* чтобы фото было поверх фона, но не перекрывало текст */
+    }
+
+    /* Если на очень маленьких экранах высота фото меньше, можно уменьшить padding-bottom */
+    @media screen and (max-width: 479px) {
+        .hero-content {
+            padding-bottom: 340px;   /* подогнать под фактическую высоту фото */
+        }
+        .hero-photo {
+            width: 320px;
+        }
+    }
+
+    @media screen and (max-width: 360px) {
+        .hero-content {
+            padding-bottom: 300px;
+        }
+        .hero-photo {
+            width: 280px;
+        }
+    }
+}
