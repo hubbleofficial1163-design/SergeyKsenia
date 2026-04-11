@@ -201,7 +201,7 @@ function showLoadingModal() {
 }
 
 // ========== GOOGLE SHEETS ==========
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9UXoihFWwCNT4FYvjEC46ifiht3w6iJIq2xZ_e0VwzCLDyjcXHh9LAW-WXhbscBC7/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhdtJBa5dulbbtnoZH5keaVMnf9QNnVVNQwFX2jo7BFHBieusOyaqsWKa5pkZd6i7tRA/exec';
 
 function initRSVPForm() {
     const rsvpForm = document.querySelector('.rsvp-form');
