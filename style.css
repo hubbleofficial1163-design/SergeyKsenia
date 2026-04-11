@@ -16,41 +16,78 @@ body {
 }
 
 /* Hero секция - СВЕТЛЫЙ ФОН */
-/* Hero секция - СВЕТЛЫЙ ФОН */
 .hero {
     width: 100%;
     position: relative;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     background-color: #E8D9C4;
     color: #81754D;
     text-align: center;
-    overflow: hidden;
-    /* Убираем CSS-высоту, она будет задаваться через JS */
+    overflow: visible;
+    min-height: 100vh; /* fallback */
+    min-height: 100dvh; /* dynamic viewport height - современный подход */
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
-    padding-top: 25vh;
+    padding-top: 12vh;
     padding-left: 20px;
     padding-right: 20px;
     width: 100%;
+    flex-shrink: 0;
 }
 
 /* Фото в hero */
-/* Фото в hero */
-.hero {
-    width: 100%;
+.hero-photo {
     position: relative;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    background-color: #E8D9C4;
-    color: #81754D;
-    text-align: center;
-    overflow: hidden;
+    width: 450px;
+    max-width: 85%;
+    height: auto;
+    margin-top: auto;
+    margin-bottom: 0;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 40px 40px 0 0;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .hero {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .hero-content {
+        padding-top: 8vh;
+        flex: 1 0 auto;
+    }
+    
+    .hero-photo {
+        margin-top: auto;
+        margin-bottom: 0;
+        flex-shrink: 0;
+        width: 380px;
+    }
+}
+
+
+@media screen and (max-width: 479px) {
+    .hero-content {
+        padding-top: 5vh;
+    }
+    
+    .hero-photo {
+        width: 320px;
+        max-width: 90%;
+    }
 }
 
 
@@ -909,7 +946,7 @@ body {
 }
 
 /* Фото в hero - опускаем немного ниже */
-.hero-photo {
+/* .hero-photo {
     position: absolute;
     width: 450px;
     height: auto;
@@ -919,7 +956,7 @@ body {
     z-index: 1;
     border-radius: 40px 40px 0 0;
     max-width: 90%;
-}
+} */
 
 .date-photo-container {
     max-width: 600px;
