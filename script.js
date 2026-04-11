@@ -298,12 +298,25 @@ function setMobileHeroHeight() {
     const hero = document.querySelector('.hero');
     if (!hero) return;
     
-    // Используем реальную высоту окна (без учёта динамической шторки)
+    // Получаем реальную высоту окна
     const windowHeight = window.innerHeight;
     
     hero.style.height = windowHeight + 'px';
     hero.style.minHeight = windowHeight + 'px';
 }
+
+// Запускаем при загрузке
+setMobileHeroHeight();
+
+// Обновляем при ресайзе
+window.addEventListener('resize', function() {
+    setMobileHeroHeight();
+});
+
+// Обновляем при изменении ориентации
+window.addEventListener('orientationchange', function() {
+    setTimeout(setMobileHeroHeight, 50);
+});
 
 // Запускаем при загрузке
 setMobileHeroHeight();
