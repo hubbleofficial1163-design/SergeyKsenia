@@ -16,10 +16,9 @@ body {
 }
 
 /* Hero секция - СВЕТЛЫЙ ФОН */
+/* Hero секция - СВЕТЛЫЙ ФОН */
 .hero {
-    width: 100vw;
-    height: 100vh;
-    min-height: 100vh;
+    width: 100%;
     position: relative;
     display: flex;
     align-items: flex-start;
@@ -28,7 +27,7 @@ body {
     color: #81754D;
     text-align: center;
     overflow: hidden;
-    transition: height 0.1s ease;
+    /* Убираем CSS-высоту, она будет задаваться через JS */
 }
 
 .hero-content {
@@ -40,6 +39,7 @@ body {
     width: 100%;
 }
 
+/* Фото в hero */
 /* Фото в hero */
 .hero-photo {
     position: absolute;
@@ -908,7 +908,7 @@ body {
 }
 
 /* Фото в hero - опускаем немного ниже */
-.hero-photo {
+/* .hero-photo {
     position: absolute;
     width: 450px;
     height: auto;
@@ -916,7 +916,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
-}
+} */
 
 .date-photo-container {
     max-width: 600px;
