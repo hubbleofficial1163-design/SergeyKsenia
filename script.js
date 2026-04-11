@@ -297,11 +297,41 @@ function initRSVPForm() {
 function setMobileHeroHeight() {
     const hero = document.querySelector('.hero');
     if (!hero) return;
-    const vh = window.innerHeight;
-    hero.style.height = vh + 'px';
-    hero.style.minHeight = vh + 'px';
+    
+    // Используем реальную высоту окна (без учёта динамической шторки)
+    const windowHeight = window.innerHeight;
+    
+    hero.style.height = windowHeight + 'px';
+    hero.style.minHeight = windowHeight + 'px';
 }
 
+// Запускаем при загрузке
 setMobileHeroHeight();
-window.addEventListener('resize', setMobileHeroHeight);
-window.addEventListener('orientationchange', () => setTimeout(setMobileHeroHeight, 100));
+
+// Обновляем только при изменении ориентации или resize
+window.addEventListener('resize', function() {
+    setTimeout(setMobileHeroHeight, 100);
+});
+
+window.addEventListener('orientationchange', function() {
+    setTimeout(setMobileHeroHeight, 100);
+});
+
+// Запускаем при загрузке
+// setMobileHeroHeight();
+
+// // Обновляем только при изменении ориентации или resize (но не при скролле!)
+// window.addEventListener('resize', function() {
+//     setTimeout(setMobileHeroHeight, 100);
+// });
+
+// window.addEventListener('orientationchange', function() {
+//     setTimeout(setMobileHeroHeight, 100);
+// });
+
+// Удаляем старый вызов window.addEventListener('resize', setMobileHeroHeight) если он был
+// Убедитесь, что в конце файла нет дублирующих вызовов
+
+// setMobileHeroHeight();
+// window.addEventListener('resize', setMobileHeroHeight);
+// window.addEventListener('orientationchange', () => setTimeout(setMobileHeroHeight, 100));
