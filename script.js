@@ -201,7 +201,7 @@ function showLoadingModal() {
 }
 
 // ========== GOOGLE SHEETS ==========
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyhdtJBa5dulbbtnoZH5keaVMnf9QNnVVNQwFX2jo7BFHBieusOyaqsWKa5pkZd6i7tRA/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbye3S3tcC0eIp7OQuR2YkMAScF09vIs7fFLuB7FkUm0ceI2kp3orSeGsLRAqos9jx80bQ/exec';
 
 function initRSVPForm() {
     const rsvpForm = document.querySelector('.rsvp-form');
@@ -214,14 +214,30 @@ function initRSVPForm() {
         const originalText = submitBtn.textContent;
         
         const nameInput = this.querySelector('input[type="text"]');
+        const phoneInput = this.querySelector('input[type="tel"]');
         const attendanceRadio = this.querySelector('input[name="attendance"]:checked');
         
         const name = nameInput ? nameInput.value.trim() : '';
+        let phone = phoneInput ? phoneInput.value.trim() : '';
         const attendance = attendanceRadio ? attendanceRadio.value : null;
         
         if (!name) {
             showModal('Ошибка', 'Пожалуйста, введите ваше имя', true);
             nameInput.focus();
+            return;
+        }
+        
+        if (!phone) {
+            showModal('Ошибка', 'Пожалуйста, введите номер телефона', true);
+            phoneInput.focus();
+            return;
+        }
+        
+        // Валидация телефона (минимальная)
+        const phoneRegex = /^[\+\d\s\-\(\)]{5,}$/;
+        if (!phoneRegex.test(phone)) {
+            showModal('Ошибка', 'Пожалуйста, введите корректный номер телефона', true);
+            phoneInput.focus();
             return;
         }
         
@@ -238,6 +254,7 @@ function initRSVPForm() {
         try {
             const formDataToSend = new URLSearchParams();
             formDataToSend.append('name', name);
+            formDataToSend.append('phone', phone);
             formDataToSend.append('attendance', attendance);
             
             const response = await fetch(SCRIPT_URL, {
@@ -259,7 +276,7 @@ function initRSVPForm() {
                 } else {
                     showModal(
                         'Спасибо за ответ!',
-                        'Очень жаль, что вы не сможете быть с нами в этот день.',
+                        'Очень жаль, если вы не сможете быть с нами в этот день.',
                         false
                     );
                 }
