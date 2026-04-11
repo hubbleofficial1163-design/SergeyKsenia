@@ -5,6 +5,14 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCountdown();
     setInterval(updateCountdown, 1000);
     initRSVPForm();
+    
+    // Убираем все проблемы с hero-высотой
+    // Просто удаляем все inline стили, которые могли быть
+    const hero = document.querySelector('.hero');
+    if (hero) {
+        hero.style.height = '';
+        hero.style.minHeight = '';
+    }
 });
 
 function updateCountdown() {
@@ -233,7 +241,6 @@ function initRSVPForm() {
             return;
         }
         
-        // Валидация телефона (минимальная)
         const phoneRegex = /^[\+\d\s\-\(\)]{5,}$/;
         if (!phoneRegex.test(phone)) {
             showModal('Ошибка', 'Пожалуйста, введите корректный номер телефона', true);
@@ -293,58 +300,3 @@ function initRSVPForm() {
         }
     });
 }
-
-function setMobileHeroHeight() {
-    const hero = document.querySelector('.hero');
-    if (!hero) return;
-    
-    // Получаем реальную высоту окна
-    const windowHeight = window.innerHeight;
-    
-    hero.style.height = windowHeight + 'px';
-    hero.style.minHeight = windowHeight + 'px';
-}
-
-// Запускаем при загрузке
-setMobileHeroHeight();
-
-// Обновляем при ресайзе
-window.addEventListener('resize', function() {
-    setMobileHeroHeight();
-});
-
-// Обновляем при изменении ориентации
-window.addEventListener('orientationchange', function() {
-    setTimeout(setMobileHeroHeight, 50);
-});
-
-// Запускаем при загрузке
-setMobileHeroHeight();
-
-// Обновляем только при изменении ориентации или resize
-window.addEventListener('resize', function() {
-    setTimeout(setMobileHeroHeight, 100);
-});
-
-window.addEventListener('orientationchange', function() {
-    setTimeout(setMobileHeroHeight, 100);
-});
-
-// Запускаем при загрузке
-// setMobileHeroHeight();
-
-// // Обновляем только при изменении ориентации или resize (но не при скролле!)
-// window.addEventListener('resize', function() {
-//     setTimeout(setMobileHeroHeight, 100);
-// });
-
-// window.addEventListener('orientationchange', function() {
-//     setTimeout(setMobileHeroHeight, 100);
-// });
-
-// Удаляем старый вызов window.addEventListener('resize', setMobileHeroHeight) если он был
-// Убедитесь, что в конце файла нет дублирующих вызовов
-
-// setMobileHeroHeight();
-// window.addEventListener('resize', setMobileHeroHeight);
-// window.addEventListener('orientationchange', () => setTimeout(setMobileHeroHeight, 100));
