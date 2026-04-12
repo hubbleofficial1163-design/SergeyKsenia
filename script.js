@@ -209,8 +209,9 @@ function showLoadingModal() {
 }
 
 // ========== GOOGLE SHEETS ==========
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbye3S3tcC0eIp7OQuR2YkMAScF09vIs7fFLuB7FkUm0ceI2kp3orSeGsLRAqos9jx80bQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby18MSExJLpvmi1WekJpFcdvYosXbhrFRhVbyzGMOl4Vk62yUG8TS7NFDzTXlgYj8o-2w/exec';
 
+// Инициализация формы RSVP (без телефона и без гостей)
 function initRSVPForm() {
     const rsvpForm = document.querySelector('.rsvp-form');
     if (!rsvpForm) return;
@@ -221,30 +222,17 @@ function initRSVPForm() {
         const submitBtn = this.querySelector('.submit-button');
         const originalText = submitBtn.textContent;
         
+        // Получаем данные
         const nameInput = this.querySelector('input[type="text"]');
-        const phoneInput = this.querySelector('input[type="tel"]');
         const attendanceRadio = this.querySelector('input[name="attendance"]:checked');
         
         const name = nameInput ? nameInput.value.trim() : '';
-        let phone = phoneInput ? phoneInput.value.trim() : '';
         const attendance = attendanceRadio ? attendanceRadio.value : null;
         
+        // Валидация
         if (!name) {
             showModal('Ошибка', 'Пожалуйста, введите ваше имя', true);
             nameInput.focus();
-            return;
-        }
-        
-        if (!phone) {
-            showModal('Ошибка', 'Пожалуйста, введите номер телефона', true);
-            phoneInput.focus();
-            return;
-        }
-        
-        const phoneRegex = /^[\+\d\s\-\(\)]{5,}$/;
-        if (!phoneRegex.test(phone)) {
-            showModal('Ошибка', 'Пожалуйста, введите корректный номер телефона', true);
-            phoneInput.focus();
             return;
         }
         
@@ -253,15 +241,16 @@ function initRSVPForm() {
             return;
         }
         
+        // Показываем загрузку
         submitBtn.disabled = true;
         submitBtn.textContent = 'Отправка...';
         
         const loadingModal = showLoadingModal();
         
         try {
+            // Формируем данные для отправки (только имя и присутствие)
             const formDataToSend = new URLSearchParams();
             formDataToSend.append('name', name);
-            formDataToSend.append('phone', phone);
             formDataToSend.append('attendance', attendance);
             
             const response = await fetch(SCRIPT_URL, {
@@ -271,29 +260,35 @@ function initRSVPForm() {
             });
             
             const result = await response.json();
+            
             loadingModal.remove();
             
             if (result.result === 'success') {
                 if (attendance === 'yes') {
                     showModal(
                         'Спасибо, ' + name + '!',
-                        'Мы будем ждать вас на нашей свадьбе 4 августа 2026 года!',
+                        'Мы будем ждать вас на нашей свадьбе 4 сентября 2026 года! 🎉',
                         false
                     );
                 } else {
                     showModal(
                         'Спасибо за ответ!',
-                        'Очень жаль, если вы не сможете быть с нами в этот день.',
+                        'Очень жаль, что вы не сможете быть с нами в этот день.',
                         false
                     );
                 }
+                // Очищаем форму
                 rsvpForm.reset();
             } else {
                 throw new Error(result.message || 'Ошибка отправки');
             }
         } catch (error) {
             loadingModal.remove();
-            showModal('Ошибка', error.message || 'Произошла ошибка при отправке. Пожалуйста, попробуйте ещё раз.', true);
+            showModal(
+                'Ошибка',
+                error.message || 'Произошла ошибка при отправке. Пожалуйста, попробуйте ещё раз.',
+                true
+            );
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
